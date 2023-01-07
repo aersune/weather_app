@@ -2,12 +2,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:weather/api/weather_api.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:weather/screens/city_screen.dart';
+import 'package:weather/widgets/bottom_list_view.dart';
 import 'package:weather/widgets/city_view.dart';
+import 'package:weather/widgets/detail_view.dart';
 import 'package:weather/widgets/temp_view.dart';
 import '../model/weather_forecast_daily.dart';
 
 class WeatherForecastScreen extends StatefulWidget {
-  const WeatherForecastScreen({Key? key}) : super(key: key);
+  final locationWeather;
+  const WeatherForecastScreen({Key? key, this.locationWeather}) : super(key: key);
 
   @override
   State<WeatherForecastScreen> createState() => _WeatherForecastScreenState();
@@ -15,19 +19,22 @@ class WeatherForecastScreen extends StatefulWidget {
 
 class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
   late Future<WeatherForecast> forecastObject;
-  final String _cityName = 'London';
+   // String _cityName = 'Gulistan';
+  late String  _cityName;
 
   @override
   void initState() {
     super.initState();
-    forecastObject =
-        WeatherApi().fetchWeatherForecastWithCity(cityName: _cityName);
+    if(widget.locationWeather != null){
+      forecastObject = Future.value(widget.locationWeather);
+    }
 
-    // forecastObject.then((weather) {
-    //   if (kDebugMode) {
-    //     print(weather.list![0].weather![0].main);
-    //   }
-    // });
+
+    forecastObject.then((weather) {
+      if (kDebugMode) {
+        print(weather.list![0].weather![0].main);
+      }
+    });
   }
 
   @override
@@ -39,10 +46,23 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.my_location),
-          onPressed: (){},
+          onPressed: (){
+            setState(() {
+              forecastObject = WeatherApi().fetchWeatherForecast();
+            });
+          },
         ),
         actions: [
-          IconButton(onPressed: (){}, icon: const Icon(Icons.location_city))
+          IconButton(onPressed: () async{
+            var toppedName = await Navigator.push(context, MaterialPageRoute(builder: (context) => const CityScreen()));
+            if(toppedName != null){
+              setState(() {
+                _cityName = toppedName;
+                forecastObject = WeatherApi().fetchWeatherForecast(cityName: _cityName, isCity: true);
+                print(_cityName);
+              });
+            }
+          }, icon: const Icon(Icons.location_city))
         ],
       ),
       body: ListView(
@@ -58,6 +78,10 @@ class _WeatherForecastScreenState extends State<WeatherForecastScreen> {
                       CityView(snapshot: snapshot),
                       const SizedBox(height: 50,),
                       TempView(snapshot: snapshot),
+                      const SizedBox(height: 50,),
+                      DetailView(snapshot: snapshot),
+                      const SizedBox(height: 50,),
+                      BottomLisView(snapshot: snapshot,),
                     ],
                   );
                 } else{

@@ -176,7 +176,7 @@ class WeatherList {
     return data;
   }
   String getIconUrl() {
-    return '${Constants.WEATHER_IMAGES_URL}${weather?[0].icon.toString()}.png';
+    return '${Constants.WEATHER_IMAGES_URL}${weather?[0].icon.toString()}@2x.png';
   }
 }
 

@@ -1,19 +1,44 @@
 import 'dart:convert';
 
+import 'package:geolocator/geolocator.dart';
+
 import '../model/weather_forecast_daily.dart';
 import '../utilits/constans.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 
-class WeatherApi{
-    Future<WeatherForecast> fetchWeatherForecastWithCity({String? cityName}) async{
-        var queryParametres = {
-            'appid' : Constants.WEATHER_APP_ID,
-            'units' : 'metric',
-            'q' : cityName,
-        };
+import '../utilits/location.dart';
 
-        var uri = Uri.http(Constants.WEATHER_BASE_URL_DOMAIN, Constants.WEATHER_FORECAST_PATH, queryParametres);
+class WeatherApi{
+    Future<WeatherForecast> fetchWeatherForecast(
+        {String? cityName, bool? isCity}) async{
+        LocationPermission permission;
+        permission = await Geolocator.requestPermission();
+        Location location = Location();
+        await location.getCurrentLocation();
+
+        Map<String,String>? parametres;
+
+        if(isCity == true){
+            var queryParametres = {
+                'appid' : Constants.WEATHER_APP_ID,
+                'units' : 'metric',
+                'q' : cityName,
+            };
+            parametres = queryParametres.cast<String, String>();
+        }else{
+            var queryParametres = {
+                'appid' : Constants.WEATHER_APP_ID,
+                'units' : 'metric',
+                'lat' : location.latitude.toString(),
+                'lon' : location.longitude.toString(),
+            };
+            parametres = queryParametres.cast<String, String>();
+        }
+
+
+
+        var uri = Uri.http(Constants.WEATHER_BASE_URL_DOMAIN, Constants.WEATHER_FORECAST_PATH, parametres);
         
         log('request: ${uri.toString()}');
 
