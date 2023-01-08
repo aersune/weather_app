@@ -15,6 +15,8 @@ class LocationScreen extends StatefulWidget {
 
 class _LocationScreenState extends State<LocationScreen> {
 
+
+
   void getLocationData() async{
     try{
       var weatherInfo = await WeatherApi().fetchWeatherForecast();
@@ -22,9 +24,10 @@ class _LocationScreenState extends State<LocationScreen> {
         return WeatherForecastScreen(locationWeather: weatherInfo,);
       } ));
     } catch(e){
-      if (kDebugMode) {
+
         log(e.toString());
-      }
+
+
     }
 
   }
@@ -37,7 +40,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  const Scaffold(
       body: Center(
         child: SpinKitFadingCircle(
           size: 100,
