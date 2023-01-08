@@ -1,4 +1,4 @@
-import '../utilits/constans.dart';
+import '../utilities/constans.dart';
 
 class WeatherForecast {
   City? city;

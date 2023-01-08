@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../model/weather_forecast_daily.dart';
-import '../utilits/constans.dart';
 
 class TempView extends StatelessWidget {
   final AsyncSnapshot<WeatherForecast> snapshot;
@@ -15,27 +14,25 @@ class TempView extends StatelessWidget {
     var temp = forecastList?[0].temp?.day?.toStringAsFixed(0);
     var description = forecastList?[0].weather?[0].description?.toUpperCase();
 
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-         Image.network(
-           icon!,
-           scale: 0.7,
-           color: Colors.black87,
-         ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+       Image.network(
+         icon!,
+         scale: 0.7,
+         color: Colors.white,
+       ),
 
-          Column(
-            children: [
-              Text(
-                '$temp °C',
-                style: const TextStyle(fontSize: 54, color: Colors.black87),
-              ),
-              Text(description.toString(), style: TextStyle(fontSize: 18, color: Colors.black87),)
-            ],
-          )
-        ],
-      ),
+        Column(
+          children: [
+            Text(
+              '$temp °C',
+              style: const TextStyle(fontSize: 54, color: Colors.white, fontWeight: FontWeight.w300),
+            ),
+            Text(description.toString(), style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w300),)
+          ],
+        )
+      ],
     );
   }
 }

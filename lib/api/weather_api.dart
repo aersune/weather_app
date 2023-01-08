@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 
 import '../model/weather_forecast_daily.dart';
-import '../utilits/constans.dart';
+import '../utilities/constans.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
 
-import '../utilits/location.dart';
+import '../utilities/location.dart';
 
 class WeatherApi{
     Future<WeatherForecast> fetchWeatherForecast(
@@ -36,8 +36,6 @@ class WeatherApi{
             parametres = queryParametres.cast<String, String>();
         }
 
-
-
         var uri = Uri.http(Constants.WEATHER_BASE_URL_DOMAIN, Constants.WEATHER_FORECAST_PATH, parametres);
         
         log('request: ${uri.toString()}');
@@ -49,7 +47,7 @@ class WeatherApi{
         if(response.statusCode == 200){
             return WeatherForecast.fromJson(json.decode(response.body));
         } else{
-            throw Exception('Error response');
+            return Future.error('Error response');
         }
     }
 }

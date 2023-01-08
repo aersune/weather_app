@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weather/utilits/forecast_util.dart';
+import 'package:weather/utilities/forecast_util.dart';
 
 import '../model/weather_forecast_daily.dart';
 
@@ -19,13 +19,14 @@ class CityView extends StatelessWidget {
         Text(
           '$city,  $country',
           style: const TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87),
+              fontSize: 32,
+              fontWeight: FontWeight.w400,
+              color: Colors.white),
         ),
+        const SizedBox(height: 10,),
         Text(
           Util.getFotmatattedDate(formattedDate) ,
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 15, color: Colors.white, fontWeight: FontWeight.w300),
         )
       ],
     );

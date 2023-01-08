@@ -10,11 +10,11 @@ class Util{
   static getItem(IconData iconData, int value, String units){
     return Column(
       children: [
-        Icon(iconData, color: Colors.black87, size: 24,),
+        Icon(iconData, color: Colors.white, size: 24,),
         const SizedBox(height: 10,),
-        Text(value.toString(), style: const TextStyle(fontSize: 20, color: Colors.black87),),
+        Text(value.toString(), style: const TextStyle(fontSize: 20, color: Colors.white),),
         const SizedBox(height: 10,),
-        Text(units, style: const TextStyle(fontSize: 15, color: Colors.black87),),
+        Text(units, style: const TextStyle(fontSize: 15, color: Colors.white),),
       ],
     );
   }
